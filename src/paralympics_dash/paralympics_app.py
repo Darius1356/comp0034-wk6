@@ -12,19 +12,94 @@ meta_tags = [
 # Pass the stylesheet variable to the Dash app constructor
 app = Dash(__name__, external_stylesheets=external_stylesheets)
 
-app.layout = dbc.Container(
-    html.Div([
-    html.H1('Hello Dash'),
-    html.Div([
-        html.P('Dash converts Python classes into HTML'),
-        html.P("This conversion happens behind the scenes by Dash's JavaScript front-end"),
-        html.Button('Submit', id='submit-val', n_clicks=0)
-    ]),
-    html.Div([
-        html.Img(src=app.get_asset_url('line-chart-placeholder.png'))
-    ])
+
+row_one = dbc.Row([
+    dbc.Col([
+        html.H1("Paralympics Data Analytics"),
+        html.P("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent congue luctus elit nec gravida. Fusce efficitur posuere metus posuere malesuada. ")]),
 ])
-)
+
+row_two = dbc.Row([
+    dbc.Col(children=[
+        # Column 1 children
+        dbc.Select(
+        options=[
+            {"label": "Events", "value": "events"},  # The value is in the format of the column heading in the data
+            {"label": "Sports", "value": "sports"},
+            {"label": "Countries", "value": "countries"},
+            {"label": "Athletes", "value": "participants"},
+        ],
+        value="events",  # The default selection
+        id="dropdown-input",  # id uniquely identifies the element, will be needed later for callbacks
+        )]),
+    dbc.Col(children=[
+        # Column 2 children
+        # className="ing-fluid" is a pure Bootstrap class and prevented the image spanning the next column
+        html.Img(src=app.get_asset_url('line-chart-placeholder.png'), className="img-fluid"),
+        ]),  # 4 'empty' columns between this and the previous column
+    dbc.Col(children=[
+        # Column 3 children
+        html.Div(
+            [
+                dbc.Label("Select the Paralympic Games type"),
+                dbc.Checklist(options=[
+                    {"label": "Summer", "value": "summer"},
+                    {"label": "Winter", "value": "winter"},
+                ],
+                value=["summer"],  # Values is a list as you can select 1 AND 2
+                id="checklist-input",),
+            ]
+        )]),
+    dbc.Col(children=[
+        # Column 4 children
+        html.Img(src=app.get_asset_url('bar-chart-placeholder.png'), className="img-fluid")])
+])
+
+row_three = dbc.Row([
+    dbc.Col(children=[
+        # Column 1 children
+        html.Img(src=app.get_asset_url('map-placeholder.png'), className="img-fluid")], width=6),
+    dbc.Col(children=[
+        # Column 2 children
+        dbc.Card(
+            [
+                dbc.CardImg(src="assets/logos/1960_Rome.jpg", top=True),
+                dbc.CardBody(
+                    [
+                        html.H4("TownName 2026", className="card-title"),
+                        html.P(
+                            "Highlights of the paralympic event will go here. This will be a sentence or two.",
+                            className="card-text",
+                        ),
+                        html.P(
+                            "Number of athletes: XX",
+                            className="card-text",
+                        ),
+                        html.P(
+                            "Number of events: XX",
+                            className="card-text",
+                        ),
+                        html.P(
+                            "Number of countries: XX",
+                            className="card-text",
+                        ),
+                    ]
+                ),
+            ],) # style={"width": "18rem"},
+        ], width=6),
+])
+
+row_four = dbc.Row([
+    dbc.Col(children=[], width=6),
+    dbc.Col(children=[], width=6),
+])
+
+app.layout = dbc.Container([
+    row_one,
+    row_two,
+    row_three,
+    row_four
+])
 
 if __name__ == '__main__':
     app.run(debug=True)
